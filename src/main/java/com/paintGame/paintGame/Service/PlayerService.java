@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,20 +16,21 @@ public class PlayerService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void createNewPlayer(Player player) {
-        List<Integer> scoreList = null;
+    public String createNewPlayer(Player player) {
+        List<Integer> scoreList = new ArrayList<>();
         player = new Player(player.getUsername(), player.getPassword(), scoreList);
         mongoTemplate.save(player, "Players"); // Sparar spelaren direkt
+        return player.getUsername() + " was created";
     }
 
-    public void deletePlayer(int playerId) {
+    public void deletePlayer(String playerId) {
         Player player = mongoTemplate.findById(playerId, Player.class);
         if (player != null) {
             mongoTemplate.remove(player);
         }
     }
 
-    public void updatePlayerScore(int playerId, int newScore) {
+    public void updatePlayerScore(String playerId, int newScore) {
         Player player = mongoTemplate.findById(playerId, Player.class);
         if (player != null) {
             player.getScoreList().add(newScore);
@@ -40,16 +42,19 @@ public class PlayerService {
         return mongoTemplate.findAll(Player.class);
     }
 
-    public void loginPlayer(String username) {
+    public Player loginPlayer(Player player) {
+        Query query = Query
+                .query(Criteria.where("username").is(player.getUsername()).and("password").is(player.getPassword()));
 
-        System.out.println("Logging in player: " + username);
+        return mongoTemplate.findOne(query, Player.class);
+
     }
 
-    public String getPlayerID(String username) {
+    public Player getUsername(String username) {
 
         Player player = mongoTemplate.findOne(
-                new Query(Criteria.where("name").is(username)), Player.class);
+                new Query(Criteria.where("username").is(username)), Player.class);
 
-        return player != null ? player.getId() : "User not found";
+        return player;
     }
 }
