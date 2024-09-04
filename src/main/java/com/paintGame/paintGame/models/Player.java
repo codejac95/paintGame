@@ -2,13 +2,12 @@ package com.paintGame.paintGame.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@Document (collection = "Players")
+@Document(collection = "Players")
 @CrossOrigin(origins = "*")
 public class Player {
 
@@ -22,8 +21,7 @@ public class Player {
 
     }
 
-    public Player(String id, String username, String password, List<Integer> scoreList) {
-        this.id = UUID.randomUUID().toString();
+    public Player(String username, String password, List<Integer> scoreList) {
         this.username = username;
         this.password = password;
         this.scoreList = new ArrayList<>();
@@ -60,7 +58,5 @@ public class Player {
     public void setScoreList(List<Integer> scoreList) {
         this.scoreList = scoreList;
     }
-    
-    
-    
+
 }
