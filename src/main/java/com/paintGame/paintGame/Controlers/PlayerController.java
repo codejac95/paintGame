@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.paintGame.paintGame.Player;
+import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
 
 @RestController
@@ -16,8 +16,8 @@ public class PlayerController {
     private PlayerService playerService;
 
     @PostMapping("/create")
-    public void createNewPlayer(@RequestBody PlayerRequest playerRequest) {
-        playerService.createNewPlayer(playerRequest.getPlayerName());
+    public void createNewPlayer(@RequestBody Player player) {
+        playerService.createNewPlayer(player);
     }
 
     @DeleteMapping("/delete/{playerId}")
@@ -36,7 +36,7 @@ public class PlayerController {
     }
 
     @GetMapping("/getId/{username}")
-    public int getPlayerID(@PathVariable String username) {
+    public String getPlayerID(@PathVariable String username) {
         return playerService.getPlayerID(username);
     }
 
