@@ -48,7 +48,7 @@ public class PlayerController {
             Player existingPlayer = playerService.getUsername(player.getUsername());
             if (existingPlayer.getUsername() != null
                     && existingPlayer.getPassword().equals(existingPlayer.getPassword())) {
-                return existingPlayer.getUsername() + " has logged in";
+                return existingPlayer.getUsername();
             } else {
                 System.out.println("Wrong password");
                 return "Wrong password";
