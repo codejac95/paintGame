@@ -17,19 +17,15 @@ public class PlayerController {
     private PlayerService playerService;
 
     @PostMapping("/create")
-public String createNewPlayer(@RequestBody Player player) {
-    System.out.println("/player/create");
-    try {
+    public String createNewPlayer(@RequestBody Player player) {
+        System.out.println("/player/create");
         Player existingPlayer = playerService.getUsername(player.getUsername());
-        if (existingPlayer != null) { // If player exists
-            return "User already exists";
-        } else { // If player doesn't exist
+        if (existingPlayer == null) {  
             return playerService.createNewPlayer(player);
+        } else {
+            return "User already exists";
         }
-    } catch (Exception e) {
-        return "Something went wrong";
     }
-}
 
     @DeleteMapping("/delete/{playerId}")
     public void deletePlayer(@PathVariable String playerId) {
@@ -43,26 +39,23 @@ public String createNewPlayer(@RequestBody Player player) {
 
     @PostMapping("/login")
     public String loginPlayer(@RequestBody Player player) {
-
-        try {
-            Player existingPlayer = playerService.getUsername(player.getUsername());
-            if (existingPlayer.getUsername() != null
-                    && existingPlayer.getPassword().equals(existingPlayer.getPassword())) {
-                return existingPlayer.getUsername();
+        Player existingPlayer = playerService.getUsername(player.getUsername());
+            if (existingPlayer != null && existingPlayer.getPassword().equals(player.getPassword())) {
+                return "Login successful for user: " + existingPlayer.getUsername();
             } else {
-                System.out.println("Wrong password");
-                return "Wrong password";
+                System.out.println("Wrong username or password");
+                return "Wrong username or password";
             }
-        } catch (Exception e) {
-            System.out.println("Something went wrong");
-            return "Something went wrong";
-        }
-
     }
 
     @GetMapping("/getId/{username}")
-    public String getUsername(@RequestBody String username) {
-        return playerService.getUsername(username).getId();
+    public String getUsername(@PathVariable String username) {
+        Player player = playerService.getUsername(username);
+        if (player != null) {
+            return player.getId();
+        } else {
+            return "User not found";
+        }
     }
 
     @GetMapping("/getAll")
