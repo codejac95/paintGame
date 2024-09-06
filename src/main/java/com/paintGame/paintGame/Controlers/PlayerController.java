@@ -10,6 +10,7 @@ import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/player")
 public class PlayerController {
 
