@@ -2,48 +2,49 @@ package com.paintGame.paintGame.models;
 
 public class DrawMessage {
 
- private int squareId;
- private int x;
- private int y;
+    private int squareId;
+    private int x;
+    private int y;
+    private String color;
 
- public DrawMessage(){
-    
- }
+    public DrawMessage(){}
 
+    public DrawMessage(int squareId, int x, int y, String color) {
+        this.squareId = squareId;
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
 
- 
- public DrawMessage(int squareId, int x, int y) {
-    this.squareId = squareId;
-    this.x = x;
-    this.y = y;
-}
+    public int getSquareId() {
+        return squareId;
+    }
 
+    public void setSquareId(int squareId) {
+        this.squareId = squareId;
+    }
 
+    public int getX() {
+        return x;
+    }
 
-public int getSquareId() {
-    return squareId;
-}
+    public void setX(int x) {
+        this.x = x;
+    }
 
-public void setSquareId(int squareId) {
-    this.squareId = squareId;
-}
+    public int getY() {
+        return y;
+    }
 
+    public void setY(int y) {
+        this.y = y;
+    }
 
+    public String getColor() {
+        return color;
+    }
 
-public int getX() {
-    return x;
-}
-
-public void setX(int x) {
-    this.x = x;
-}
-
-public int getY() {
-    return y;
-}
-
-public void setY(int y) {
-    this.y = y;
-}
-    
+    public void setColor(String color){
+        this.color = color;
+    }
 }
