@@ -12,6 +12,7 @@ import com.paintGame.paintGame.Service.GameService;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/game")
+
 public class GameController {
     @Autowired
     private GameService gameService;
