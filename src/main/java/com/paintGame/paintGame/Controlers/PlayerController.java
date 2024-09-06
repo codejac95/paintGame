@@ -1,5 +1,6 @@
 package com.paintGame.paintGame.Controlers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/player")
@@ -18,19 +17,19 @@ public class PlayerController {
     private PlayerService playerService;
 
     @PostMapping("/create")
-    public String createNewPlayer(@RequestBody Player player) {
-        System.out.println("/player/create");
-        try {
-            Player existingPlayer = playerService.getUsername(player.getUsername());
-            if (existingPlayer.getUsername().equals(player.getUsername())) {
-                return playerService.createNewPlayer(player);
-            } else {
-                return "User already exists";
-            }
-        } catch (Exception e) {
-            return "Something went wrong";
+public String createNewPlayer(@RequestBody Player player) {
+    System.out.println("/player/create");
+    try {
+        Player existingPlayer = playerService.getUsername(player.getUsername());
+        if (existingPlayer != null) { // If player exists
+            return "User already exists";
+        } else { // If player doesn't exist
+            return playerService.createNewPlayer(player);
         }
+    } catch (Exception e) {
+        return "Something went wrong";
     }
+}
 
     @DeleteMapping("/delete/{playerId}")
     public void deletePlayer(@PathVariable String playerId) {
@@ -71,6 +70,26 @@ public class PlayerController {
         return playerService.getAllPlayers();
     }
 
+     @GetMapping("/averageScorePerPlayer")
+    public List<PlayerAverageScore> getAverageScorePerPlayer() {
+        List<Player> allPlayers = playerService.getAllPlayers();
+        
+        List<PlayerAverageScore> playerAverages = new ArrayList<>();
+        
+        for (Player player : allPlayers) {
+            List<Integer> scores = player.getScoreList();
+            if (!scores.isEmpty()) {
+                double average = scores.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+                playerAverages.add(new PlayerAverageScore(player.getUsername(), average));
+            } else {
+                playerAverages.add(new PlayerAverageScore(player.getUsername(), 0.0));
+            }
+        }
+
+        return playerAverages;
+    }
+
+   
     public static class UpdateScoreRequest {
         private int newScore;
 
@@ -80,6 +99,24 @@ public class PlayerController {
 
         public void setNewScore(int newScore) {
             this.newScore = newScore;
+        }
+    }
+
+    public static class PlayerAverageScore {
+        private String username;
+        private double averageScore;
+    
+        public PlayerAverageScore(String username, double averageScore) {
+            this.username = username;
+            this.averageScore = averageScore;
+        }
+    
+        public String getUsername() {
+            return username;
+        }
+    
+        public double getAverageScore() {
+            return averageScore;
         }
     }
 }
@@ -95,3 +132,5 @@ class PlayerRequest {
         this.playerName = playerName;
     }
 }
+
+
