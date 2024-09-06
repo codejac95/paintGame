@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/player")
@@ -20,8 +22,7 @@ public class PlayerController {
         System.out.println("/player/create");
         try {
             Player existingPlayer = playerService.getUsername(player.getUsername());
-            if (existingPlayer.getUsername().equals(null)) {
-
+            if (existingPlayer.getUsername().equals(player.getUsername())) {
                 return playerService.createNewPlayer(player);
             } else {
                 return "User already exists";
