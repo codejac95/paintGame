@@ -7,7 +7,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import com.paintGame.paintGame.models.CountdownMessage;
 import com.paintGame.paintGame.models.DrawMessage;
+import com.paintGame.paintGame.models.ImageMessage;
 
 @Controller
 public class DrawingController {
@@ -17,6 +19,7 @@ public class DrawingController {
     public DrawingController(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
+    
 
      @MessageMapping("/draw")
      @SendTo("/topic/drawings") 
@@ -28,5 +31,18 @@ public class DrawingController {
      public void handleDrawing(@Payload DrawMessage drawMeassage) {
         messagingTemplate.convertAndSend("/topic/drawings", drawMeassage);
      }
+    @MessageMapping("/showImage")
+     @SendTo("/topic/showImage")
+     public ImageMessage broadcastImage(ImageMessage imageMessage) throws Exception {
+      System.out.println("Broadcasting the image: " + imageMessage.getImage());
+      return imageMessage;
+     }
+     @MessageMapping("/startCountdown")
+     public void startCountdown(@Payload CountdownMessage countdownMessage) {
+        
+        messagingTemplate.convertAndSend("/topic/countdown", countdownMessage);
+     }
+
+
 
 }
