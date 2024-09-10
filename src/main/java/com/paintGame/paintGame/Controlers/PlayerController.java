@@ -42,6 +42,7 @@ public class PlayerController {
     @PostMapping("/login")
     public Player loginPlayer(@RequestBody Player player) {
         Player existingPlayer = playerService.getUsername(player.getUsername());
+
         if (existingPlayer != null && existingPlayer.getPassword().equals(player.getPassword())) {
             existingPlayer.setPassword("");
             return existingPlayer;
@@ -51,6 +52,7 @@ public class PlayerController {
             player.setPassword(null);
             return player;
         }
+
     }
 
     @GetMapping("/getId/{username}")

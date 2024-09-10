@@ -1,7 +1,5 @@
 package com.paintGame.paintGame.Controlers;
 
-
-
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.paintGame.paintGame.models.DrawMessage;
 import com.paintGame.paintGame.models.ImageMessage;
-
 
 @Controller
 @CrossOrigin("*")
@@ -22,7 +19,6 @@ public class DrawingController {
         this.messagingTemplate = messagingTemplate;
     }
     
-
      @MessageMapping("/draw")
      @SendTo("/topic/drawings") 
      public DrawMessage broadcastDrawing(DrawMessage drawMeassage) {
