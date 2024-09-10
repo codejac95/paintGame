@@ -1,4 +1,4 @@
-package com.paintGame.paintGame.Controllers;
+package com.paintGame.paintGame.Controlers;
 
 import java.util.ArrayList;
 import java.util.List;

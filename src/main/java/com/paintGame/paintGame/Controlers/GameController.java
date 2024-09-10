@@ -1,4 +1,4 @@
-package com.paintGame.paintGame.Controllers;
+package com.paintGame.paintGame.Controlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
