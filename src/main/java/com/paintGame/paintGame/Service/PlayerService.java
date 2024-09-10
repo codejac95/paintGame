@@ -16,11 +16,11 @@ public class PlayerService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public String createNewPlayer(Player player) {
+    public Player createNewPlayer(Player player) {
         List<Integer> scoreList = new ArrayList<>();
         player = new Player(player.getUsername(), player.getPassword(), scoreList);
         mongoTemplate.save(player, "Players"); // Sparar spelaren direkt
-        return player.getUsername() + " was created";
+        return player;
     }
 
     public void deletePlayer(String playerId) {
