@@ -22,7 +22,7 @@ public class PlayerController {
     public String createNewPlayer(@RequestBody Player player) {
         System.out.println("/player/create");
         Player existingPlayer = playerService.getUsername(player.getUsername());
-        if (existingPlayer == null) {  
+        if (existingPlayer == null) {
             return playerService.createNewPlayer(player);
         } else {
             return "User already exists";
@@ -40,14 +40,19 @@ public class PlayerController {
     }
 
     @PostMapping("/login")
-    public String loginPlayer(@RequestBody Player player) {
+    public Player loginPlayer(@RequestBody Player player) {
         Player existingPlayer = playerService.getUsername(player.getUsername());
-            if (existingPlayer != null && existingPlayer.getPassword().equals(player.getPassword())) {
-                return existingPlayer.getUsername();
-            } else {
-                System.out.println("Wrong username or password");
-                return "Wrong username or password";
-            }
+
+        if (existingPlayer != null && existingPlayer.getPassword().equals(player.getPassword())) {
+            existingPlayer.setPassword("");
+            return existingPlayer;
+        } else {
+            System.out.println("Wrong username or password");
+            player.setUsername(null);
+            player.setPassword(null);
+            return player;
+        }
+
     }
 
     @GetMapping("/getId/{username}")
@@ -65,12 +70,12 @@ public class PlayerController {
         return playerService.getAllPlayers();
     }
 
-     @GetMapping("/averageScorePerPlayer")
+    @GetMapping("/averageScorePerPlayer")
     public List<PlayerAverageScore> getAverageScorePerPlayer() {
         List<Player> allPlayers = playerService.getAllPlayers();
-        
+
         List<PlayerAverageScore> playerAverages = new ArrayList<>();
-        
+
         for (Player player : allPlayers) {
             List<Integer> scores = player.getScoreList();
             if (!scores.isEmpty()) {
@@ -84,7 +89,6 @@ public class PlayerController {
         return playerAverages;
     }
 
-   
     public static class UpdateScoreRequest {
         private int newScore;
 
@@ -100,16 +104,16 @@ public class PlayerController {
     public static class PlayerAverageScore {
         private String username;
         private double averageScore;
-    
+
         public PlayerAverageScore(String username, double averageScore) {
             this.username = username;
             this.averageScore = averageScore;
         }
-    
+
         public String getUsername() {
             return username;
         }
-    
+
         public double getAverageScore() {
             return averageScore;
         }
@@ -127,5 +131,3 @@ class PlayerRequest {
         this.playerName = playerName;
     }
 }
-
-
