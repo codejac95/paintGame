@@ -1,4 +1,4 @@
-package com.paintGame.paintGame.Controlers;
+package com.paintGame.paintGame.Controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class PlayerController {
     public String loginPlayer(@RequestBody Player player) {
         Player existingPlayer = playerService.getUsername(player.getUsername());
             if (existingPlayer != null && existingPlayer.getPassword().equals(player.getPassword())) {
-                return "Login successful for user: " + existingPlayer.getUsername();
+                return existingPlayer.getUsername();
             } else {
                 System.out.println("Wrong username or password");
                 return "Wrong username or password";
