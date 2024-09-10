@@ -19,13 +19,13 @@ public class PlayerController {
     private PlayerService playerService;
 
     @PostMapping("/create")
-    public String createNewPlayer(@RequestBody Player player) {
+    public Player createNewPlayer(@RequestBody Player player) {
         System.out.println("/player/create");
         Player existingPlayer = playerService.getUsername(player.getUsername());
         if (existingPlayer == null) {
             return playerService.createNewPlayer(player);
         } else {
-            return "User already exists";
+            return null;
         }
     }
 
