@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket")
-                .setAllowedOriginPatterns("*") 
+                .setAllowedOriginPatterns("https://seashell-app-ia2eg.ondigitalocean.app/") 
                 .withSockJS();
     }
 }
