@@ -7,10 +7,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import com.paintGame.paintGame.Controlers.PlayerController;
 import com.paintGame.paintGame.Service.PlayerService;
 import com.paintGame.paintGame.models.Player;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 @SpringBootTest
 class PaintGameApplicationTests {
@@ -53,5 +67,26 @@ class PaintGameApplicationTests {
 		assertEquals(null, result.getPassword());
 		assertEquals(null, result.getUsername());
 	}
+
+	@Test
+    public void wsConnectionTest() throws InterruptedException, ExecutionException {
+    List<Transport> transports = Arrays.<Transport>asList(new WebSocketTransport(new StandardWebSocketClient()));
+    SockJsClient sockJsClient = new SockJsClient(transports);
+
+    // Create a Stomp client using SockJS
+    WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
+    stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+    // Connect using SockJS endpoint
+    String sockJsUrl = "http://localhost:8080/websocket";
+    @SuppressWarnings("deprecation")
+    StompSession stompSession = stompClient.connect(sockJsUrl, new StompSessionHandlerAdapter() {}).get();
+
+    // Assert that the session is connected
+    assertTrue(stompSession.isConnected(), "WebSocket should be connected");
+
+       
+   }
+
 
 }
