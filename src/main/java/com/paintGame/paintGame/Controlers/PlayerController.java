@@ -10,7 +10,7 @@ import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
 @RequestMapping("/player")
 
 public class PlayerController {
