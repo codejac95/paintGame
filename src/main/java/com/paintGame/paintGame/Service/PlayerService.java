@@ -19,7 +19,8 @@ public class PlayerService {
     public Player createNewPlayer(Player player) {
         List<Integer> scoreList = new ArrayList<>();
         player = new Player(player.getUsername(), player.getPassword(), scoreList);
-        mongoTemplate.save(player, "Players"); // Sparar spelaren direkt
+        player.setLoggedIn(true);
+        mongoTemplate.save(player, "Players"); 
         return player;
     }
 
@@ -43,18 +44,28 @@ public class PlayerService {
     }
 
     public Player loginPlayer(Player player) {
-        Query query = Query
-                .query(Criteria.where("username").is(player.getUsername()).and("password").is(player.getPassword()));
+        Query query = Query.query(Criteria.where("username").is(player.getUsername()).and("password").is(player.getPassword()));
+        Player existingPlayer = mongoTemplate.findOne(query, Player.class);
+        if(existingPlayer != null && !existingPlayer.isLoggedIn()) {
+            existingPlayer.setLoggedIn(true);
+            mongoTemplate.save(existingPlayer);
+            return existingPlayer;
+        } else {
+            return null;
+        }
+    }
 
-        return mongoTemplate.findOne(query, Player.class);
-
+    public void logoutPlayer(Player player) {
+        Query query = Query.query(Criteria.where("username").is(player.getUsername()));
+        Player existingPlayer = mongoTemplate.findOne(query, Player.class);
+        if (existingPlayer != null) {
+            existingPlayer.setLoggedIn(false);
+            mongoTemplate.save(existingPlayer);
+        }
     }
 
     public Player getUsername(String username) {
-
-        Player player = mongoTemplate.findOne(
-                new Query(Criteria.where("username").is(username)), Player.class);
-
+        Player player = mongoTemplate.findOne(new Query(Criteria.where("username").is(username)), Player.class);
         return player;
     }
 }

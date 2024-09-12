@@ -10,7 +10,9 @@ import com.paintGame.paintGame.models.DrawMessage;
 import com.paintGame.paintGame.models.ImageMessage;
 
 @Controller
-@CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
+// @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
+@CrossOrigin("*")
+
 public class DrawingController {
 
     private final SimpMessagingTemplate messagingTemplate;

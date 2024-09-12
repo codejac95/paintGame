@@ -10,7 +10,8 @@ import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
 
 @RestController
-@CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
+// @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
+@CrossOrigin("*")
 @RequestMapping("/player")
 
 public class PlayerController {
@@ -41,19 +42,20 @@ public class PlayerController {
 
     @PostMapping("/login")
     public Player loginPlayer(@RequestBody Player player) {
-        Player existingPlayer = playerService.getUsername(player.getUsername());
-
-        if (existingPlayer != null && existingPlayer.getPassword().equals(player.getPassword())) {
-            existingPlayer.setPassword("");
-            return existingPlayer;
+        Player loggedInPlayer = playerService.loginPlayer(player);
+        if (loggedInPlayer != null) {
+            loggedInPlayer.setPassword(""); 
+            return loggedInPlayer;
         } else {
-            System.out.println("Wrong username or password");
-            player.setUsername(null);
-            player.setPassword(null);
-            return player;
+            return new Player();
         }
-
     }
+
+    @PostMapping("/logout")
+    public void logoutPlayer(@RequestBody Player player) {
+            playerService.logoutPlayer(player);
+        }
+    
 
     @GetMapping("/getId/{username}")
     public String getUsername(@PathVariable String username) {

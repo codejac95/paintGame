@@ -18,10 +18,9 @@ public class Player {
     private String username;
     private String password;
     private List<Integer> scoreList;
-
-    public Player() {
-
-    }
+    private boolean isLoggedIn;
+    
+    public Player() {}
 
     public Player(String username, String password, List<Integer> scoreList) {
         this.username = username;
@@ -59,6 +58,14 @@ public class Player {
 
     public void setScoreList(List<Integer> scoreList) {
         this.scoreList = scoreList;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 
 }

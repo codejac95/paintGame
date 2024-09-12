@@ -15,7 +15,8 @@ import com.paintGame.paintGame.Service.GameService;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
+// @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
+@CrossOrigin("*")
 @RequestMapping("/game")
 public class GameController {
 
