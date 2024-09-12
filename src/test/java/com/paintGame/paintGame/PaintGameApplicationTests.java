@@ -93,11 +93,19 @@ class PaintGameApplicationTests {
    }
 
    @Test
-   void givenSquareIsOccupiedWhenCheckedThenReturnsFalse() {
+   void givenSquareIsUnOccupiedWhenCheckedThenReturnsFalse() {
 
 	int squareId = 1;
 	gameService.assignSquare(squareId);
 	assertFalse(gameService.getOccupiedSquares().isEmpty());
+
+   }
+   @Test
+   void givenSquareIsOccupiedWhenCheckedThenReturnsTrue() {
+
+	int squareId = 1;
+	gameService.assignSquare(squareId);
+	assertTrue(gameService.getOccupiedSquares().contains(squareId));
 
    }
 
