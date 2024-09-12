@@ -1,6 +1,7 @@
 package com.paintGame.paintGame;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import com.paintGame.paintGame.Controlers.PlayerController;
+import com.paintGame.paintGame.Service.GameService;
 import com.paintGame.paintGame.Service.PlayerService;
 import com.paintGame.paintGame.models.Player;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,6 +36,9 @@ class PaintGameApplicationTests {
 
 	@MockBean
 	private PlayerService playerService;
+
+	@Autowired
+	private GameService gameService;
 
 	@Test
 	// Given when then
@@ -69,7 +74,7 @@ class PaintGameApplicationTests {
 	}
 
 	@Test
-    public void wsConnectionTest() throws InterruptedException, ExecutionException {
+    public void givenWebsocketIsConnectedWhenCheckedThenReturnsTrue() throws InterruptedException, ExecutionException {
     List<Transport> transports = Arrays.<Transport>asList(new WebSocketTransport(new StandardWebSocketClient()));
     SockJsClient sockJsClient = new SockJsClient(transports);
 
@@ -84,8 +89,16 @@ class PaintGameApplicationTests {
 
     // Assert that the session is connected
     assertTrue(stompSession.isConnected(), "WebSocket should be connected");
+ 
+   }
 
-       
+   @Test
+   void givenSquareIsOccupiedWhenCheckedThenReturnsFalse() {
+
+	int squareId = 1;
+	gameService.assignSquare(squareId);
+	assertFalse(gameService.getOccupiedSquares().isEmpty());
+
    }
 
 
