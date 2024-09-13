@@ -49,19 +49,15 @@ public class DrawingController {
        messagingTemplate.convertAndSend("/topic/showImage", "{\"action\":\"countdownEnded\"}");
    }
 
-   @MessageMapping("/drawingCountdown")
-   @SendTo("/topic/drawingCountdown")
-   public DrawMessage broadcastDrawingCountdown(DrawMessage drawMessage) {
-    String action = drawMessage.getAction();
-    System.out.println("Drawmessage!!!!!!!!!!!!!!!!!!!!!!!!!!!:" +drawMessage+"////////////////"+ action);
-    if("startCountdown".equals(action)) {
-        drawMessage.setAction("startCountdown");
-        
-    } else if("countdownEnded".equals(action)) {
-        drawMessage.setAction("countdownEnded");
-    }
-           return drawMessage;
-  
+//   
+
+@MessageMapping("/countdownStartedDraw")
+public void handleCountdownStarted() {
+    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"startCountdownDraw\"}");
 }
 
+@MessageMapping("/countdownEndedDraw")
+public void handleCountdownEndedDraw() {
+    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"countdownEndedDraw\"}");
+}
 }
