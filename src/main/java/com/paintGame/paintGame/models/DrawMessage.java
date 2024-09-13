@@ -6,14 +6,16 @@ public class DrawMessage {
     private int x;
     private int y;
     private String color;
+    private String action;
 
     public DrawMessage(){}
 
-    public DrawMessage(int squareId, int x, int y, String color) {
+    public DrawMessage(int squareId, int x, int y, String color, String action) {
         this.squareId = squareId;
         this.x = x;
         this.y = y;
         this.color = color;
+        this.action = action;
     }
 
     public int getSquareId() {
@@ -47,4 +49,13 @@ public class DrawMessage {
     public void setColor(String color){
         this.color = color;
     }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+    
 }
