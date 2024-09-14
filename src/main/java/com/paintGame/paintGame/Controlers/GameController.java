@@ -47,4 +47,5 @@ public class GameController {
         gameService.freeSquare(squareId);
         messagingTemplate.convertAndSend("/topic/occupiedSquares", gameService.getOccupiedSquares());
     }
+    
 }
