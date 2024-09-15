@@ -3,11 +3,13 @@ package com.paintGame.paintGame.Controlers;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.paintGame.paintGame.models.DrawMessage;
 import com.paintGame.paintGame.models.ImageMessage;
+import com.paintGame.paintGame.models.PercentMessage;
 
 @Controller
 // @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
@@ -48,5 +50,12 @@ public class DrawingController {
    public void handleCountdownEnded() {
        messagingTemplate.convertAndSend("/topic/showImage", "{\"action\":\"countdownEnded\"}");
    }
+
+   @MessageMapping("/percentMatch")
+    @SendTo("/topic/percent")
+    public PercentMessage processPercentMatch(PercentMessage message, SimpMessageHeaderAccessor headerAccessor) {
+        
+        return message;
+    }
   
 }
