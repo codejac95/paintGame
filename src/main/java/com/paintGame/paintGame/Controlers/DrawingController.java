@@ -51,6 +51,7 @@ public class DrawingController {
        messagingTemplate.convertAndSend("/topic/showImage", "{\"action\":\"countdownEnded\"}");
    }
 
+
    @MessageMapping("/percentMatch")
     @SendTo("/topic/percent")
     public PercentMessage processPercentMatch(PercentMessage message, SimpMessageHeaderAccessor headerAccessor) {
@@ -58,4 +59,17 @@ public class DrawingController {
         return message;
     }
   
+
+//   
+
+@MessageMapping("/countdownStartedDraw")
+public void handleCountdownStarted() {
+    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"startCountdownDraw\"}");
+}
+
+@MessageMapping("/countdownEndedDraw")
+public void handleCountdownEndedDraw() {
+    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"countdownEndedDraw\"}");
+}
+
 }
