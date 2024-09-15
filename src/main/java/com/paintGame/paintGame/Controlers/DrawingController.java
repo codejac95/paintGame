@@ -48,5 +48,16 @@ public class DrawingController {
    public void handleCountdownEnded() {
        messagingTemplate.convertAndSend("/topic/showImage", "{\"action\":\"countdownEnded\"}");
    }
-  
+
+//   
+
+@MessageMapping("/countdownStartedDraw")
+public void handleCountdownStarted() {
+    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"startCountdownDraw\"}");
+}
+
+@MessageMapping("/countdownEndedDraw")
+public void handleCountdownEndedDraw() {
+    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"countdownEndedDraw\"}");
+}
 }
