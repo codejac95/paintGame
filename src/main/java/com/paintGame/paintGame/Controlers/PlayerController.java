@@ -36,8 +36,10 @@ public class PlayerController {
     }
 
     @PutMapping("/update/{playerId}")
-    public void updatePlayerScore(@PathVariable String playerId, @RequestBody UpdateScoreRequest updateScoreRequest) {
-        playerService.updatePlayerScore(playerId, updateScoreRequest.getNewScore());
+    public Player updatePlayerScore(@PathVariable String playerId, @RequestBody UpdateScoreRequest updateScoreRequest) {
+        System.out.println("update: newScore = " + updateScoreRequest.getNewScore());
+        Player updatedPlayer = playerService.updatePlayerScore(playerId, updateScoreRequest.getNewScore());
+        return updatedPlayer;
     }
 
     @PostMapping("/login")
@@ -79,9 +81,9 @@ public class PlayerController {
         List<PlayerAverageScore> playerAverages = new ArrayList<>();
 
         for (Player player : allPlayers) {
-            List<Integer> scores = player.getScoreList();
+            List<Double> scores = player.getScoreList();
             if (!scores.isEmpty()) {
-                double average = scores.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+                double average = scores.stream().mapToInt(Double::intValue).average().orElse(0.0);
                 playerAverages.add(new PlayerAverageScore(player.getUsername(), average));
             } else {
                 playerAverages.add(new PlayerAverageScore(player.getUsername(), 0.0));
@@ -92,13 +94,13 @@ public class PlayerController {
     }
 
     public static class UpdateScoreRequest {
-        private int newScore;
+        private double newScore;
 
-        public int getNewScore() {
+        public double getNewScore() {
             return newScore;
         }
 
-        public void setNewScore(int newScore) {
+        public void setNewScore(double newScore) {
             this.newScore = newScore;
         }
     }

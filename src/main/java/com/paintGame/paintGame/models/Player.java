@@ -17,15 +17,17 @@ public class Player {
     @Indexed(unique = true)
     private String username;
     private String password;
-    private List<Integer> scoreList;
+    private List<Double> scoreList;
     private boolean isLoggedIn;
     
     public Player() {}
 
-    public Player(String username, String password, List<Integer> scoreList) {
+    public Player(String username, String password, List<Double> scoreList) {
+        
         this.username = username;
         this.password = password;
-        this.scoreList = new ArrayList<>();
+        this.scoreList = scoreList;
+        
     }
 
     public String getId() {
@@ -52,11 +54,11 @@ public class Player {
         this.password = password;
     }
 
-    public List<Integer> getScoreList() {
+    public List<Double> getScoreList() {
         return scoreList;
     }
 
-    public void setScoreList(List<Integer> scoreList) {
+    public void setScoreList(List<Double> scoreList) {
         this.scoreList = scoreList;
     }
 
@@ -67,5 +69,7 @@ public class Player {
     public void setLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
+
+    
 
 }

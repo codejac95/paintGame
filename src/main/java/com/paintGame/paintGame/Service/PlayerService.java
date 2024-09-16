@@ -17,7 +17,7 @@ public class PlayerService {
     private MongoTemplate mongoTemplate;
 
     public Player createNewPlayer(Player player) {
-        List<Integer> scoreList = new ArrayList<>();
+        List<Double> scoreList = new ArrayList<>();
         player = new Player(player.getUsername(), player.getPassword(), scoreList);
         player.setLoggedIn(true);
         mongoTemplate.save(player, "Players"); 
@@ -31,12 +31,15 @@ public class PlayerService {
         }
     }
 
-    public void updatePlayerScore(String playerId, int newScore) {
+    public Player updatePlayerScore(String playerId, double newScore) {
         Player player = mongoTemplate.findById(playerId, Player.class);
         if (player != null) {
             player.getScoreList().add(newScore);
-            mongoTemplate.save(player);
+            System.out.println("Name: " + player.getUsername());
+            return mongoTemplate.save(player);
+            
         }
+        return null;
     }
 
     public List<Player> getAllPlayers() {
