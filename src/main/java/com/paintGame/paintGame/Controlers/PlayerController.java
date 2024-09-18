@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
+import com.paintGame.paintGame.dto.PlayerScoreDto;
 
 @RestController
 // @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
@@ -91,6 +92,11 @@ public class PlayerController {
         }
 
         return playerAverages;
+    }
+
+    @GetMapping("/loggedinPlayersScores")
+    public List<PlayerScoreDto> getLoggedInPlayersWithLatestScore() {
+        return playerService.getLoggedInPlayersWithLatestScore();
     }
 
     public static class UpdateScoreRequest {

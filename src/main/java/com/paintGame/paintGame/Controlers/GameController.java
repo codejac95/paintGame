@@ -35,7 +35,7 @@ public class GameController {
         gameService.assignSquare(squareId);
         messagingTemplate.convertAndSend("/topic/occupiedSquares", gameService.getOccupiedSquares());
     }
-    
+
 
     @MessageMapping("/resetSquares")
     public void resetSquares() {

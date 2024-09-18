@@ -25,6 +25,7 @@ public class GameService {
 
     public void resetSquares() {
         occupiedSquares.clear();
+        System.out.println("clear!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
 }

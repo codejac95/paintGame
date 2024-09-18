@@ -1,5 +1,6 @@
 package com.paintGame.paintGame.Service;
 
+import com.paintGame.paintGame.dto.PlayerScoreDto;
 import com.paintGame.paintGame.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -8,7 +9,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -70,5 +73,19 @@ public class PlayerService {
     public Player getUsername(String username) {
         Player player = mongoTemplate.findOne(new Query(Criteria.where("username").is(username)), Player.class);
         return player;
+    }
+
+    public List<PlayerScoreDto> getLoggedInPlayersWithLatestScore() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("isLoggedIn").is(true));
+        List<Player> loggedInPlayers = mongoTemplate.find(query, Player.class);
+    
+        return loggedInPlayers.stream()
+            .map(player -> new PlayerScoreDto(
+                    player.getUsername(), 
+                    player.getScoreList().isEmpty() ? null : player.getScoreList().get(player.getScoreList().size() - 1)
+            ))
+            .sorted(Comparator.comparing(PlayerScoreDto::getLatestScore).reversed())
+            .collect(Collectors.toList());
     }
 }
