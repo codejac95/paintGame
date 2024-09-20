@@ -27,6 +27,5 @@ public class ImageMessage {
     public void setAction(String action) {
         this.action = action;
     }
-    
 
 }

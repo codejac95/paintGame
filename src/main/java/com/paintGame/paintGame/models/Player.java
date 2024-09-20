@@ -19,15 +19,23 @@ public class Player {
     private String password;
     private List<Double> scoreList;
     private boolean isLoggedIn;
-    
-    public Player() {}
+
+    public Player() {
+    }
 
     public Player(String username, String password, List<Double> scoreList) {
-        
+
         this.username = username;
         this.password = password;
         this.scoreList = scoreList;
-        
+    }
+
+    public Player(String id, String username, String password, List<Double> scoreList, boolean isLoggedIn) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.scoreList = scoreList;
+        this.isLoggedIn = isLoggedIn;
     }
 
     public String getId() {
@@ -69,7 +77,5 @@ public class Player {
     public void setLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
-
-    
 
 }
