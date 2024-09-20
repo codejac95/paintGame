@@ -12,7 +12,6 @@ import com.paintGame.paintGame.models.ImageMessage;
 import com.paintGame.paintGame.models.PercentMessage;
 
 @Controller
-// @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
 @CrossOrigin("*")
 
 public class DrawingController {
@@ -22,54 +21,50 @@ public class DrawingController {
     public DrawingController(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
-    
-     @MessageMapping("/draw")
-     @SendTo("/topic/drawings") 
-     public DrawMessage broadcastDrawing(DrawMessage drawMeassage) {
-        return drawMeassage; 
-     }
 
-     @MessageMapping("/drawHandle")
-     public void handleDrawing(@Payload DrawMessage drawMeassage) {
+    @MessageMapping("/draw")
+    @SendTo("/topic/drawings")
+    public DrawMessage broadcastDrawing(DrawMessage drawMeassage) {
+        return drawMeassage;
+    }
+
+    @MessageMapping("/drawHandle")
+    public void handleDrawing(@Payload DrawMessage drawMeassage) {
         messagingTemplate.convertAndSend("/topic/drawings", drawMeassage);
-     }
+    }
 
-     
-   @MessageMapping("/showComponent")
-   @SendTo("/topic/showImage")
-   public ImageMessage broadcastShowImage() {
-       return new ImageMessage(null, "showImage");
-   }
-   @MessageMapping("/broadcastImage")
-   @SendTo("/topic/showImage")
-   public ImageMessage broadcastImage(ImageMessage imageMessage) {
-       return new ImageMessage(imageMessage.getImage(),"startCountdown");
-   }
+    @MessageMapping("/showComponent")
+    @SendTo("/topic/showImage")
+    public ImageMessage broadcastShowImage() {
+        return new ImageMessage(null, "showImage");
+    }
 
-   @MessageMapping("/countdownEnded")
-   public void handleCountdownEnded() {
-       messagingTemplate.convertAndSend("/topic/showImage", "{\"action\":\"countdownEnded\"}");
-   }
+    @MessageMapping("/broadcastImage")
+    @SendTo("/topic/showImage")
+    public ImageMessage broadcastImage(ImageMessage imageMessage) {
+        return new ImageMessage(imageMessage.getImage(), "startCountdown");
+    }
 
+    @MessageMapping("/countdownEnded")
+    public void handleCountdownEnded() {
+        messagingTemplate.convertAndSend("/topic/showImage", "{\"action\":\"countdownEnded\"}");
+    }
 
-   @MessageMapping("/percentMatch")
+    @MessageMapping("/percentMatch")
     @SendTo("/topic/percent")
     public PercentMessage processPercentMatch(PercentMessage message, SimpMessageHeaderAccessor headerAccessor) {
-        
+
         return message;
     }
-  
 
-//   
+    @MessageMapping("/countdownStartedDraw")
+    public void handleCountdownStarted() {
+        messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"startCountdownDraw\"}");
+    }
 
-@MessageMapping("/countdownStartedDraw")
-public void handleCountdownStarted() {
-    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"startCountdownDraw\"}");
-}
-
-@MessageMapping("/countdownEndedDraw")
-public void handleCountdownEndedDraw() {
-    messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"countdownEndedDraw\"}");
-}
+    @MessageMapping("/countdownEndedDraw")
+    public void handleCountdownEndedDraw() {
+        messagingTemplate.convertAndSend("/topic/drawingCountdown", "{\"action\":\"countdownEndedDraw\"}");
+    }
 
 }

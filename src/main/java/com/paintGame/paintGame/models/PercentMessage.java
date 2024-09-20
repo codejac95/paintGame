@@ -1,11 +1,12 @@
 package com.paintGame.paintGame.models;
 
 public class PercentMessage {
-    
+
     private String playerName;
     private double percent;
 
-    public PercentMessage() {}
+    public PercentMessage() {
+    }
 
     public PercentMessage(String playerName, double percent) {
         this.playerName = playerName;
@@ -28,6 +29,4 @@ public class PercentMessage {
         this.percent = percent;
     }
 
-    
-    
 }

@@ -20,7 +20,7 @@ public class PlayerService {
         List<Double> scoreList = new ArrayList<>();
         player = new Player(player.getUsername(), player.getPassword(), scoreList);
         player.setLoggedIn(true);
-        mongoTemplate.save(player, "Players"); 
+        mongoTemplate.save(player, "Players");
         return player;
     }
 
@@ -35,9 +35,7 @@ public class PlayerService {
         Player player = mongoTemplate.findById(playerId, Player.class);
         if (player != null) {
             player.getScoreList().add(newScore);
-            System.out.println("Name: " + player.getUsername());
             return mongoTemplate.save(player);
-            
         }
         return null;
     }
@@ -47,9 +45,10 @@ public class PlayerService {
     }
 
     public Player loginPlayer(Player player) {
-        Query query = Query.query(Criteria.where("username").is(player.getUsername()).and("password").is(player.getPassword()));
+        Query query = Query
+                .query(Criteria.where("username").is(player.getUsername()).and("password").is(player.getPassword()));
         Player existingPlayer = mongoTemplate.findOne(query, Player.class);
-        if(existingPlayer != null && !existingPlayer.isLoggedIn()) {
+        if (existingPlayer != null && !existingPlayer.isLoggedIn()) {
             existingPlayer.setLoggedIn(true);
             mongoTemplate.save(existingPlayer);
             return existingPlayer;

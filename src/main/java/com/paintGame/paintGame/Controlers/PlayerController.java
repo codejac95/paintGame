@@ -2,15 +2,12 @@ package com.paintGame.paintGame.Controlers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.paintGame.paintGame.models.Player;
 import com.paintGame.paintGame.Service.PlayerService;
 
 @RestController
-// @CrossOrigin("https://seashell-app-ia2eg.ondigitalocean.app")
 @CrossOrigin("*")
 @RequestMapping("/player")
 
@@ -21,7 +18,6 @@ public class PlayerController {
 
     @PostMapping("/create")
     public Player createNewPlayer(@RequestBody Player player) {
-        System.out.println("/player/create");
         Player existingPlayer = playerService.getUsername(player.getUsername());
         if (existingPlayer == null) {
             return playerService.createNewPlayer(player);
@@ -37,16 +33,14 @@ public class PlayerController {
 
     @PutMapping("/update/{playerId}")
     public Player updatePlayerScore(@PathVariable String playerId, @RequestBody UpdateScoreRequest updateScoreRequest) {
-        System.out.println("update: newScore = " + updateScoreRequest.getNewScore());
-        Player updatedPlayer = playerService.updatePlayerScore(playerId, updateScoreRequest.getNewScore());
-        return updatedPlayer;
+        return playerService.updatePlayerScore(playerId, updateScoreRequest.getNewScore());
     }
 
     @PostMapping("/login")
     public Player loginPlayer(@RequestBody Player player) {
         Player loggedInPlayer = playerService.loginPlayer(player);
         if (loggedInPlayer != null) {
-            loggedInPlayer.setPassword(""); 
+            loggedInPlayer.setPassword("");
             return loggedInPlayer;
         } else {
             return new Player();
@@ -55,9 +49,8 @@ public class PlayerController {
 
     @PostMapping("/logout")
     public void logoutPlayer(@RequestBody Player player) {
-            playerService.logoutPlayer(player);
-        }
-    
+        playerService.logoutPlayer(player);
+    }
 
     @GetMapping("/getId/{username}")
     public String getUsername(@PathVariable String username) {
@@ -89,7 +82,6 @@ public class PlayerController {
                 playerAverages.add(new PlayerAverageScore(player.getUsername(), 0.0));
             }
         }
-
         return playerAverages;
     }
 
@@ -121,17 +113,5 @@ public class PlayerController {
         public double getAverageScore() {
             return averageScore;
         }
-    }
-}
-
-class PlayerRequest {
-    private String playerName;
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 }
